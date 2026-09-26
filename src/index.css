@@ -5,9 +5,15 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  font-family: 'Rajdhani', 'Segoe UI', Tahoma, sans-serif;
+  background-color: #05060f;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(123, 47, 247, 0.22), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(0, 245, 255, 0.12), transparent),
+    radial-gradient(ellipse 50% 40% at 50% 110%, rgba(255, 45, 149, 0.1), transparent);
+  background-attachment: fixed;
+  color: #e6edf7;
+  min-height: 100vh;
 }
 
 html, body, #root {
@@ -15,28 +21,58 @@ html, body, #root {
   min-height: 100%;
 }
 
-/* Scrollbar Styling */
+/* Futuristic scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #070b18;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background: linear-gradient(180deg, #00f5ff, #7b2ff7);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #764ba2;
+  background: linear-gradient(180deg, #39ff88, #00f5ff);
 }
 
 /* Spinner animation used by loaders */
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Neon pulse for highlighted elements */
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.35), inset 0 0 6px rgba(0, 245, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(0, 245, 255, 0.65), inset 0 0 10px rgba(0, 245, 255, 0.2);
+  }
+}
+
+/* Slow float for hero badges */
+@keyframes floatY {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Scanning shimmer for the app header */
+@keyframes scanline {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }
 
@@ -54,9 +90,32 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Input Styles */
+/* Input Styles — dark neon form controls */
 input, select, textarea {
   font-family: inherit;
+  background: rgba(7, 11, 24, 0.85);
+  color: #e6edf7;
+  border: 1px solid rgba(0, 245, 255, 0.18);
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #5a6b8c;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(0, 245, 255, 0.6);
+  box-shadow: 0 0 0 2px rgba(0, 245, 255, 0.12);
+}
+
+select option {
+  background: #0b1020;
+  color: #e6edf7;
+}
+
+/* Native pickers in dark mode */
+input[type='date'], input[type='time'] {
+  color-scheme: dark;
 }
 
 /* Link Styles */

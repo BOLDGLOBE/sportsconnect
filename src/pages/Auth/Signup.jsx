@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { SPORTS } from '../../data/sports';
+import { T, glass, neonBtn } from '../../theme';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -38,12 +40,14 @@ export default function Signup() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>⚽ SportsConnect</h1>
-        <p style={styles.subtitle}>Join the Game</p>
+        <h1 style={styles.title}>
+          ⚡ SPORTS<span style={{ color: T.pink }}>CONNECT</span>
+        </h1>
+        <p style={styles.subtitle}>JOIN THE NEXT-GEN ARENA</p>
 
         <form onSubmit={handleSignup} style={styles.form}>
           <div style={styles.formGroup}>
-            <label style={styles.label}>Full Name</label>
+            <label style={styles.label}>FULL NAME</label>
             <input
               type="text"
               name="displayName"
@@ -56,7 +60,7 @@ export default function Signup() {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Email</label>
+            <label style={styles.label}>EMAIL</label>
             <input
               type="email"
               name="email"
@@ -69,7 +73,7 @@ export default function Signup() {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Password</label>
+            <label style={styles.label}>PASSWORD</label>
             <input
               type="password"
               name="password"
@@ -83,23 +87,23 @@ export default function Signup() {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Primary Sport</label>
+            <label style={styles.label}>PRIMARY SPORT</label>
             <select
               name="sport"
               value={formData.sport}
               onChange={handleChange}
               style={styles.input}
             >
-              <option>Cricket</option>
-              <option>Football</option>
-              <option>Badminton</option>
-              <option>Basketball</option>
-              <option>Tennis</option>
+              {SPORTS.map((s) => (
+                <option key={s.name} value={s.name}>
+                  {s.emoji} {s.name}
+                </option>
+              ))}
             </select>
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Skill Level</label>
+            <label style={styles.label}>SKILL LEVEL</label>
             <select
               name="skillLevel"
               value={formData.skillLevel}
@@ -119,15 +123,16 @@ export default function Signup() {
             disabled={loading}
             style={{
               ...styles.button,
+              ...neonBtn,
               opacity: loading ? 0.7 : 1,
             }}
           >
-            {loading ? 'Creating Account...' : 'Sign Up'}
+            {loading ? 'CREATING ACCOUNT…' : '⚡ SIGN UP'}
           </button>
         </form>
 
         <p style={styles.link}>
-          Already have an account? <Link to="/login" style={styles.linkText}>Login</Link>
+          Already a member? <Link to="/login" style={styles.linkText}>LOGIN →</Link>
         </p>
       </div>
     </div>
@@ -140,27 +145,30 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     padding: '20px',
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: T.fontBody,
   },
   card: {
-    background: 'white',
+    ...glass,
     padding: '40px',
-    borderRadius: '12px',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+    borderRadius: '20px',
     width: '100%',
     maxWidth: '400px',
   },
   title: {
-    fontSize: '32px',
+    fontSize: '24px',
     margin: '0 0 8px 0',
-    color: '#333',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '3px',
     textAlign: 'center',
+    color: T.neon,
+    textShadow: T.glow,
   },
   subtitle: {
-    fontSize: '14px',
-    color: '#666',
+    fontSize: '12px',
+    color: T.muted,
+    fontFamily: T.fontDisplay,
+    letterSpacing: '2px',
     textAlign: 'center',
     margin: '0 0 30px 0',
   },
@@ -172,47 +180,47 @@ const styles = {
   },
   label: {
     display: 'block',
-    fontSize: '14px',
+    fontSize: '11px',
     fontWeight: 'bold',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '2px',
     marginBottom: '8px',
-    color: '#333',
+    color: T.muted,
   },
   input: {
     width: '100%',
     padding: '12px',
-    fontSize: '14px',
-    border: '1px solid #ddd',
-    borderRadius: '6px',
+    fontSize: '15px',
+    border: `1px solid ${T.border}`,
+    borderRadius: '10px',
     boxSizing: 'border-box',
+    background: 'rgba(7, 11, 24, 0.85)',
+    color: T.text,
     transition: 'border-color 0.3s',
   },
   button: {
     width: '100%',
-    padding: '12px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    color: 'white',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    transition: 'opacity 0.3s',
+    padding: '13px',
+    fontSize: '14px',
+    letterSpacing: '1px',
   },
   error: {
-    color: '#e74c3c',
+    color: T.red,
     fontSize: '14px',
     marginBottom: '15px',
     textAlign: 'center',
   },
   link: {
     textAlign: 'center',
-    fontSize: '14px',
-    color: '#666',
+    fontSize: '13px',
+    color: T.muted,
   },
   linkText: {
-    color: '#667eea',
-    textDecoration: 'none',
+    color: T.neon,
+    fontFamily: T.fontDisplay,
+    fontSize: '11px',
+    letterSpacing: '1px',
     fontWeight: 'bold',
-    cursor: 'pointer',
+    textShadow: T.glow,
   },
 };

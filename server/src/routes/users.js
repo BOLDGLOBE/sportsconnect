@@ -101,6 +101,56 @@ router.get('/top', authRequired, async (req, res) => {
   }
 });
 
+// Players near the caller, haversine-sorted, real users only.
+router.get('/nearby', authRequired, async (req, res) => {
+  try {
+    const { lat, lng, sport, radiusKm } = req.query;
+    const userLat = Number(lat);
+    const userLng = Number(lng);
+    if (lat == null || lng == null || Number.isNaN(userLat) || Number.isNaN(userLng)) {
+      return res.status(400).json({ error: 'lat and lng are required.' });
+    }
+    const radius = Math.min(Math.max(Number(radiusKm) || 50, 1), 500);
+
+    const { rows } = await pool.query(
+      `SELECT id, display_name, sport, skill_level, rating, matches_played, bio, latitude, longitude
+       FROM users
+       WHERE is_demo = FALSE
+         AND id <> $1
+         AND latitude IS NOT NULL AND longitude IS NOT NULL`,
+      [req.user.id]
+    );
+
+    let players = rows
+      .map((r) => {
+        const distance = haversine(userLat, userLng, Number(r.latitude), Number(r.longitude));
+        return {
+          uid: r.id,
+          id: r.id,
+          name: r.display_name,
+          sport: r.sport,
+          skill: r.skill_level,
+          rating: r.rating || 0,
+          matches: r.matches_played || 0,
+          bio: r.bio || '',
+          isDemo: false,
+          distance,
+        };
+      })
+      .filter((p) => p.distance <= radius);
+
+    if (sport && sport !== 'All') {
+      players = players.filter((p) => p.sport === sport);
+    }
+    players.sort((a, b) => a.distance - b.distance);
+
+    res.json(players.slice(0, 30));
+  } catch (err) {
+    console.error('nearby players error:', err.message);
+    res.status(500).json({ error: 'Could not load nearby players.' });
+  }
+});
+
 // Public profile of another user
 router.get('/:id', authRequired, async (req, res) => {
   try {

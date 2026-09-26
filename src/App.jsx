@@ -5,6 +5,7 @@ import { LocationProvider } from './context/LocationContext';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import DiscoverMatches from './pages/Discover/DiscoverMatches';
+import SportsHub from './pages/SportsHub/SportsHub';
 import CreateMatch from './pages/CreateMatch/CreateMatch';
 import MatchDetails from './pages/MatchDetails/MatchDetails';
 import Profile from './pages/Profile/Profile';
@@ -42,6 +43,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <DiscoverMatches />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sports"
+        element={
+          <ProtectedRoute>
+            <SportsHub />
           </ProtectedRoute>
         }
       />
@@ -96,15 +105,16 @@ const loaderStyle = {
   alignItems: 'center',
   minHeight: '100vh',
   gap: '16px',
-  color: '#667eea',
-  fontFamily: 'Arial, sans-serif',
+  color: '#00f5ff',
+  fontFamily: "'Orbitron', sans-serif",
+  letterSpacing: '1px',
 };
 
 const spinnerStyle = {
   width: '40px',
   height: '40px',
-  border: '4px solid #e0e0f5',
-  borderTop: '4px solid #667eea',
+  border: '4px solid rgba(0, 245, 255, 0.15)',
+  borderTop: '4px solid #00f5ff',
   borderRadius: '50%',
   animation: 'spin 1s linear infinite',
 };

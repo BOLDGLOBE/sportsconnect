@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createMatch } from '../../api';
 import { useLocationContext } from '../../context/LocationContext';
+import { SPORTS } from '../../data/sports';
+import { T, glass, neonBtn, ghostBtn } from '../../theme';
 
 export default function CreateMatch() {
   const navigate = useNavigate();
@@ -75,9 +77,9 @@ export default function CreateMatch() {
     <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
-        <button onClick={() => navigate('/discover')} style={styles.backBtn}>← Back</button>
-        <h1 style={styles.title}>Create a Match</h1>
-        <div style={{ width: '40px' }}></div>
+        <button onClick={() => navigate('/discover')} style={styles.backBtn}>← BACK</button>
+        <h1 style={styles.title}>⚡ HOST A MATCH</h1>
+        <div style={{ width: '70px' }}></div>
       </div>
 
       <div style={styles.formContainer}>
@@ -85,7 +87,7 @@ export default function CreateMatch() {
           {error && <p style={styles.error}>{error}</p>}
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Sport</label>
+            <label style={styles.label}>SPORT</label>
             <select
               name="sport"
               value={formData.sport}
@@ -93,17 +95,17 @@ export default function CreateMatch() {
               style={styles.input}
               required
             >
-              <option>Cricket</option>
-              <option>Football</option>
-              <option>Badminton</option>
-              <option>Basketball</option>
-              <option>Tennis</option>
+              {SPORTS.map((s) => (
+                <option key={s.name} value={s.name}>
+                  {s.emoji} {s.name}
+                </option>
+              ))}
             </select>
           </div>
 
           <div style={styles.formRow}>
             <div style={{ ...styles.formGroup, flex: 1 }}>
-              <label style={styles.label}>Date</label>
+              <label style={styles.label}>DATE</label>
               <input
                 type="date"
                 name="date"
@@ -114,7 +116,7 @@ export default function CreateMatch() {
               />
             </div>
             <div style={{ ...styles.formGroup, flex: 1 }}>
-              <label style={styles.label}>Time</label>
+              <label style={styles.label}>TIME</label>
               <input
                 type="time"
                 name="time"
@@ -128,7 +130,7 @@ export default function CreateMatch() {
 
           <div style={styles.formRow}>
             <div style={{ ...styles.formGroup, flex: 1 }}>
-              <label style={styles.label}>Duration (hours)</label>
+              <label style={styles.label}>DURATION (HRS)</label>
               <input
                 type="number"
                 name="duration"
@@ -141,7 +143,7 @@ export default function CreateMatch() {
               />
             </div>
             <div style={{ ...styles.formGroup, flex: 1 }}>
-              <label style={styles.label}>Players Needed</label>
+              <label style={styles.label}>PLAYERS NEEDED</label>
               <input
                 type="number"
                 name="playersNeeded"
@@ -156,37 +158,37 @@ export default function CreateMatch() {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Location Name</label>
+            <label style={styles.label}>LOCATION NAME</label>
             <input
               type="text"
               name="locationName"
               value={formData.locationName}
               onChange={handleChange}
-              placeholder="e.g., Central Park, Sports Ground XYZ"
+              placeholder="e.g., Marina Beach Ground"
               style={styles.input}
               required
             />
             <p style={styles.hint}>
-              Current location:{' '}
+              GRID LOCK:{' '}
               {location
                 ? `${location.latitude.toFixed(4)}, ${location.longitude.toFixed(4)}`
-                : 'Not detected'}
+                : 'NO SIGNAL'}
             </p>
             {status !== 'granted' && (
-              <button type="button" onClick={requestLocation} style={styles.retryLocBtn}>
-                🔄 Try detecting location again
+              <button type="button" onClick={requestLocation} style={{ ...styles.retryLocBtn, ...ghostBtn }}>
+                🔄 RE-SCAN LOCATION
               </button>
             )}
           </div>
 
           {!location && (
             <div style={styles.formGroup}>
-              <label style={styles.label}>Or enter coordinates manually</label>
+              <label style={styles.label}>OR ENTER COORDINATES MANUALLY</label>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <input
                   type="number"
                   step="any"
-                  placeholder="Latitude (e.g. 13.0827)"
+                  placeholder="Latitude (13.0827)"
                   value={manualCoords.lat}
                   onChange={(e) => setManualCoords((p) => ({ ...p, lat: e.target.value }))}
                   style={styles.input}
@@ -194,7 +196,7 @@ export default function CreateMatch() {
                 <input
                   type="number"
                   step="any"
-                  placeholder="Longitude (e.g. 80.2707)"
+                  placeholder="Longitude (80.2707)"
                   value={manualCoords.lng}
                   onChange={(e) => setManualCoords((p) => ({ ...p, lng: e.target.value }))}
                   style={styles.input}
@@ -208,7 +210,7 @@ export default function CreateMatch() {
           )}
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Skill Level Required</label>
+            <label style={styles.label}>SKILL LEVEL REQUIRED</label>
             <select
               name="skillLevel"
               value={formData.skillLevel}
@@ -223,13 +225,13 @@ export default function CreateMatch() {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Description (Optional)</label>
+            <label style={styles.label}>DESCRIPTION (OPTIONAL)</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               placeholder="Any additional details about the match..."
-              style={{ ...styles.input, minHeight: '100px', fontFamily: 'Arial' }}
+              style={{ ...styles.input, minHeight: '90px' }}
             />
           </div>
 
@@ -238,11 +240,12 @@ export default function CreateMatch() {
             disabled={loading}
             style={{
               ...styles.submitBtn,
+              ...neonBtn,
               opacity: loading ? 0.7 : 1,
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
           >
-            {loading ? 'Creating Match...' : 'Create Match'}
+            {loading ? 'LAUNCHING…' : '⚡ LAUNCH MATCH'}
           </button>
         </form>
       </div>
@@ -253,41 +256,50 @@ export default function CreateMatch() {
 const styles = {
   container: {
     minHeight: '100vh',
-    background: '#f5f5f5',
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: T.fontBody,
   },
   header: {
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    color: 'white',
-    padding: '20px',
+    background:
+      'linear-gradient(90deg, rgba(7,11,24,0.95) 0%, rgba(13,18,38,0.9) 50%, rgba(7,11,24,0.95) 100%)',
+    borderBottom: `1px solid ${T.border}`,
+    color: T.text,
+    padding: '18px 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    backdropFilter: 'blur(12px)',
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
   },
   backBtn: {
-    background: 'rgba(255,255,255,0.2)',
-    border: '1px solid rgba(255,255,255,0.5)',
-    color: 'white',
-    padding: '8px 12px',
-    borderRadius: '4px',
+    background: 'rgba(0, 245, 255, 0.06)',
+    border: `1px solid ${T.border}`,
+    color: T.neon,
+    padding: '8px 14px',
+    borderRadius: '8px',
     cursor: 'pointer',
-    fontSize: '14px',
+    fontSize: '12px',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '1px',
+    fontWeight: 'bold',
   },
   title: {
     margin: '0',
-    fontSize: '24px',
+    fontSize: '18px',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '2px',
+    color: T.neon,
+    textShadow: T.glow,
   },
   formContainer: {
     maxWidth: '600px',
     margin: '20px auto',
-    padding: '0 20px',
+    padding: '0 16px',
   },
   form: {
-    background: 'white',
+    ...glass,
     padding: '30px',
-    borderRadius: '12px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   },
   formGroup: {
     marginBottom: '20px',
@@ -299,52 +311,49 @@ const styles = {
   },
   label: {
     display: 'block',
-    fontSize: '14px',
+    fontSize: '11px',
     fontWeight: 'bold',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '2px',
     marginBottom: '8px',
-    color: '#333',
+    color: T.muted,
   },
   input: {
     width: '100%',
     padding: '12px',
-    fontSize: '14px',
-    border: '1px solid #ddd',
-    borderRadius: '6px',
+    fontSize: '15px',
+    border: `1px solid ${T.border}`,
+    borderRadius: '10px',
     boxSizing: 'border-box',
+    background: 'rgba(7, 11, 24, 0.85)',
+    color: T.text,
     transition: 'border-color 0.3s',
   },
   hint: {
     fontSize: '12px',
-    color: '#999',
-    margin: '4px 0 0 0',
+    color: T.muted,
+    margin: '6px 0 0 0',
   },
   retryLocBtn: {
     marginTop: '8px',
     padding: '8px 14px',
-    background: '#f0f0f0',
-    border: '1px solid #ddd',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontSize: '12px',
+    fontSize: '11px',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '1px',
   },
   error: {
-    background: '#f8d7da',
-    color: '#721c24',
+    background: 'rgba(255, 77, 109, 0.12)',
+    border: `1px solid ${T.borderPink}`,
+    color: T.red,
     padding: '12px',
-    borderRadius: '6px',
+    borderRadius: '10px',
     marginBottom: '20px',
     fontSize: '14px',
   },
   submitBtn: {
     width: '100%',
     padding: '14px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    color: 'white',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    transition: 'opacity 0.3s',
+    fontSize: '14px',
+    letterSpacing: '1px',
   },
 };

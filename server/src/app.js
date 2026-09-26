@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.js';
 import matchRoutes from './routes/matches.js';
 import userRoutes from './routes/users.js';
 import venueRoutes from './routes/venues.js';
+import sportRoutes from './routes/sports.js';
 
 let initPromise = null;
 
@@ -40,6 +41,7 @@ export function createApp() {
   app.use('/api/matches', matchRoutes);
   app.use('/api/users', userRoutes);
   app.use('/api/venues', venueRoutes);
+  app.use('/api/sports', sportRoutes);
 
   // 404 for unknown API routes
   app.use('/api', (req, res) => {

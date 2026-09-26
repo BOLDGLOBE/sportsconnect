@@ -1,4 +1,5 @@
 import React from 'react';
+import { T, glass } from '../theme';
 
 export default function VenueCard({ venue }) {
   const stars = '⭐'.repeat(Math.round(venue.rating || 0));
@@ -21,7 +22,7 @@ export default function VenueCard({ venue }) {
           {stars} {venue.rating?.toFixed(1)} <span style={styles.reviewCount}>({venue.reviews})</span>
         </span>
         <span style={venue.openNow ? styles.openBadge : styles.closedBadge}>
-          {venue.openNow ? 'Open now' : 'Closed'}
+          {venue.openNow ? 'OPEN NOW' : 'CLOSED'}
         </span>
       </div>
 
@@ -36,7 +37,7 @@ export default function VenueCard({ venue }) {
           rel="noreferrer"
           style={styles.mapLink}
         >
-          Open in Maps ↗
+          OPEN IN MAPS ↗
         </a>
       </div>
     </div>
@@ -45,11 +46,9 @@ export default function VenueCard({ venue }) {
 
 const styles = {
   card: {
-    background: 'white',
-    borderRadius: '12px',
+    ...glass,
     padding: '16px 20px',
     marginBottom: '14px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   },
   header: {
     display: 'flex',
@@ -58,24 +57,28 @@ const styles = {
     marginBottom: '10px',
   },
   iconBox: {
-    fontSize: '28px',
+    fontSize: '26px',
+    filter: 'drop-shadow(0 0 8px rgba(0, 245, 255, 0.35))',
   },
   headerInfo: {
     flex: 1,
   },
   name: {
     margin: 0,
-    fontSize: '16px',
-    color: '#333',
+    fontSize: '15px',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '0.5px',
+    color: T.text,
   },
   type: {
     margin: '2px 0 0 0',
     fontSize: '12px',
-    color: '#888',
+    color: T.muted,
   },
   distance: {
-    background: '#eef0fb',
-    color: '#667eea',
+    background: 'rgba(0, 245, 255, 0.08)',
+    color: T.neon,
+    border: `1px solid ${T.border}`,
     fontSize: '12px',
     fontWeight: 'bold',
     padding: '4px 10px',
@@ -90,38 +93,44 @@ const styles = {
   },
   rating: {
     fontSize: '13px',
-    color: '#f39c12',
+    color: T.amber,
     fontWeight: 'bold',
   },
   reviewCount: {
-    color: '#999',
+    color: T.muted,
     fontWeight: 'normal',
     fontSize: '12px',
   },
   openBadge: {
-    fontSize: '11px',
+    fontSize: '10px',
     fontWeight: 'bold',
-    color: '#27ae60',
-    background: '#e8f8f0',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '1px',
+    color: T.green,
+    background: 'rgba(57, 255, 136, 0.08)',
+    border: '1px solid rgba(57, 255, 136, 0.3)',
     padding: '3px 10px',
     borderRadius: '10px',
   },
   closedBadge: {
-    fontSize: '11px',
+    fontSize: '10px',
     fontWeight: 'bold',
-    color: '#e74c3c',
-    background: '#fdecea',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '1px',
+    color: T.red,
+    background: 'rgba(255, 77, 109, 0.08)',
+    border: '1px solid rgba(255, 77, 109, 0.3)',
     padding: '3px 10px',
     borderRadius: '10px',
   },
   address: {
     fontSize: '13px',
-    color: '#666',
+    color: T.muted,
     margin: '4px 0',
   },
   phone: {
     fontSize: '13px',
-    color: '#666',
+    color: T.muted,
     margin: '4px 0',
   },
   priceRow: {
@@ -130,16 +139,19 @@ const styles = {
     alignItems: 'center',
     marginTop: '8px',
     paddingTop: '8px',
-    borderTop: '1px solid #f0f0f0',
+    borderTop: `1px solid ${T.border}`,
   },
   price: {
     fontSize: '13px',
-    color: '#27ae60',
+    color: T.green,
     letterSpacing: '2px',
   },
   mapLink: {
-    fontSize: '13px',
-    color: '#667eea',
+    fontSize: '12px',
+    color: T.neon,
     fontWeight: 'bold',
+    fontFamily: T.fontDisplay,
+    letterSpacing: '0.5px',
+    textShadow: T.glow,
   },
 };

@@ -117,3 +117,16 @@ export async function getTopPlayers(sport) {
   const qs = sport && sport !== 'All' ? `?sport=${encodeURIComponent(sport)}` : '';
   return request(`/users/top${qs}`);
 }
+
+export async function getNearbyPlayers({ lat, lng, sport, radiusKm = 50 } = {}) {
+  const params = new URLSearchParams();
+  params.set('lat', lat);
+  params.set('lng', lng);
+  if (sport && sport !== 'All') params.set('sport', sport);
+  if (radiusKm) params.set('radiusKm', radiusKm);
+  return request(`/users/nearby?${params.toString()}`);
+}
+
+export async function getSportsStats() {
+  return request('/sports/stats');
+}
