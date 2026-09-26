@@ -3,7 +3,18 @@
 > FresHers Innovation Challenge 2026 · Problem INN046: *Finding Local Sports Players and Teams*
 > Team Hakers — k.Roshan, Koushik, CH Bharth, B. Praveen Kumar
 
-Find nearby players, discover sports clubs around you, browse a Top Players leaderboard, create matches, and join games — React frontend + Node/Express backend, all local, no cloud services.
+Find nearby players, discover sports clubs around you, browse a Top Players leaderboard, create matches, and join games — React frontend + Node/Express API on Vercel, Postgres on Neon.
+
+## 🌐 Live app
+
+**https://sportsconnect-teamhakers.vercel.app**
+
+- Frontend: static Vite build served by Vercel's CDN
+- API: `/api/*` serverless functions (`api/index.js` wraps the Express app)
+- Database: Neon Postgres (`DATABASE_URL` env var, schema auto-created on first request)
+- Auth: bcrypt password hashing + 7-day JWT sessions (`JWT_SECRET` env var)
+
+Demo account: `demo@sportsconnect.app` / `demo1234`
 
 ## Features
 
@@ -15,7 +26,7 @@ Find nearby players, discover sports clubs around you, browse a Top Players lead
 | **Matches** | Create, discover (distance-sorted), join, leave, delete — with sport filters. |
 | **Auth** | Email/password signup & login, bcrypt-hashed, JWT sessions. |
 
-## Running the App
+## Running locally
 
 ```bash
 # Terminal 1 — Backend API (http://localhost:3001)
@@ -29,7 +40,9 @@ npm install
 npm run dev
 ```
 
-The Vite dev server proxies `/api/*` to the backend. A portable Node runtime is in `node-portable/` for machines without Node installed (delete it if you have Node).
+- Create `server/.env` with `DATABASE_URL=postgres://...` (Neon) and `JWT_SECRET=...`
+- The Vite dev server proxies `/api/*` to the backend.
+- A portable Node runtime is in `node-portable/` for machines without Node installed (delete it if you have Node).
 
 ## Pages
 
@@ -45,7 +58,7 @@ The Vite dev server proxies `/api/*` to the backend. A portable Node runtime is 
 
 | Method | Path | Description |
 |---|---|---|
-| GET | `/api/health` | Health check |
+| GET | `/api/health` | Health check (returns `db: connected`) |
 | POST | `/api/auth/signup` `/api/auth/login` | JWT auth |
 | GET/PUT | `/api/users/me` | Profile + stats |
 | GET | `/api/users/top?sport=` | Player leaderboard |
@@ -55,10 +68,14 @@ The Vite dev server proxies `/api/*` to the backend. A portable Node runtime is 
 | POST | `/api/matches/:id/join` `/leave` | Join / leave |
 | DELETE | `/api/matches/:id` | Delete (creator only) |
 
-## Data
+## Deployment (Vercel + Neon)
 
-- `server/data/db.json` — users & matches (delete to reset)
-- `server/src/seed.js` — 8 seeded sports venues + 8 demo top players (marked "community legend")
+1. GitHub repo `BOLDGLOBE/sportsconnect` is imported as a Vercel project (`teamhakers/sportsconnect`); every push to `main` auto-deploys.
+2. `vercel.json` builds the frontend with Vite, routes `/api/(.*)` to the serverless function in `api/`, and rewrites everything else to `index.html` for the SPA.
+3. Environment variables (set in Vercel → Project → Settings → Environment Variables):
+   - `DATABASE_URL` — Neon Postgres connection string
+   - `JWT_SECRET` — signing secret for auth tokens
+4. Database tables (`users`, `matches`, `participants`) are created automatically by `initDb()` on the first API call.
 
 ## Demo Tip
 
