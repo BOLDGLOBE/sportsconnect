@@ -142,6 +142,28 @@ router.get('/nearby', authRequired, async (req, res) => {
     if (sport && sport !== 'All') {
       players = players.filter((p) => p.sport === sport);
     }
+
+    // Community legends carry approximate neighbourhood coordinates so the
+    // radar is alive on a fresh install. Same merge pattern as /top.
+    const demoPlayers = DEMO_PLAYERS.map((p) => ({
+      uid: p.uid,
+      id: p.uid,
+      name: p.name,
+      sport: p.sport,
+      skill: p.skill,
+      rating: p.rating,
+      matches: p.matches,
+      bio: p.bio,
+      location: p.location,
+      isDemo: true,
+      distance: p.latitude != null ? haversine(userLat, userLng, p.latitude, p.longitude) : Infinity,
+    })).filter((p) => p.distance <= radius);
+
+    if (sport && sport !== 'All') {
+      players = [...players, ...demoPlayers.filter((p) => p.sport === sport)];
+    } else {
+      players = [...players, ...demoPlayers];
+    }
     players.sort((a, b) => a.distance - b.distance);
 
     res.json(players.slice(0, 30));

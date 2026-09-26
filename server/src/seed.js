@@ -116,13 +116,14 @@ export const VENUES = [
 
 // Demo "most popular players" — a real community will grow this via matches played.
 // These users are flagged as demo: they are NOT real accounts and cannot be logged into.
+// Coordinates are approximate Chennai neighbourhood centers so Nearby Players works out of the box.
 export const DEMO_PLAYERS = [
-  { uid: 9001, name: 'Arjun Kumar', sport: 'Football', skill: 'Advanced', rating: 4.9, matches: 134, bio: 'Striker. Sundays are sacred.', location: 'Adyar' },
-  { uid: 9002, name: 'Priya Sharma', sport: 'Badminton', skill: 'Advanced', rating: 4.8, matches: 118, bio: 'Smash-first, questions later.', location: 'Velachery' },
-  { uid: 9003, name: 'Rohit Verma', sport: 'Cricket', skill: 'Advanced', rating: 4.7, matches: 152, bio: 'Opening bat, off-spin when tired.', location: 'Guindy' },
-  { uid: 9004, name: 'Sneha Iyer', sport: 'Tennis', skill: 'Intermediate', rating: 4.6, matches: 96, bio: 'Baseline grinder.', location: 'Nungambakkam' },
-  { uid: 9005, name: 'Mohammed Ali', sport: 'Football', skill: 'Intermediate', rating: 4.5, matches: 88, bio: 'Wing play & overlap runs.', location: 'Triplicane' },
-  { uid: 9006, name: 'Kavya Reddy', sport: 'Basketball', skill: 'Advanced', rating: 4.7, matches: 102, bio: 'Point guard. Talk defense!', location: 'Anna Nagar' },
-  { uid: 9007, name: 'Vikram Singh', sport: 'Cricket', skill: 'Intermediate', rating: 4.4, matches: 77, bio: 'Pacer. Watch the yorker.', location: 'Perungudi' },
-  { uid: 9008, name: 'Anjali Nair', sport: 'Badminton', skill: 'Intermediate', rating: 4.3, matches: 64, bio: 'Drop shots are my love language.', location: 'Adyar' },
+  { uid: 9001, name: 'Arjun Kumar', sport: 'Football', skill: 'Advanced', rating: 4.9, matches: 134, bio: 'Striker. Sundays are sacred.', location: 'Adyar', latitude: 13.0067, longitude: 80.2570 },
+  { uid: 9002, name: 'Priya Sharma', sport: 'Badminton', skill: 'Advanced', rating: 4.8, matches: 118, bio: 'Smash-first, questions later.', location: 'Velachery', latitude: 12.9815, longitude: 80.2180 },
+  { uid: 9003, name: 'Rohit Verma', sport: 'Cricket', skill: 'Advanced', rating: 4.7, matches: 152, bio: 'Opening bat, off-spin when tired.', location: 'Guindy', latitude: 13.0067, longitude: 80.2206 },
+  { uid: 9004, name: 'Sneha Iyer', sport: 'Tennis', skill: 'Intermediate', rating: 4.6, matches: 96, bio: 'Baseline grinder.', location: 'Nungambakkam', latitude: 13.0569, longitude: 80.2425 },
+  { uid: 9005, name: 'Mohammed Ali', sport: 'Football', skill: 'Intermediate', rating: 4.5, matches: 88, bio: 'Wing play & overlap runs.', location: 'Triplicane', latitude: 13.0598, longitude: 80.2686 },
+  { uid: 9006, name: 'Kavya Reddy', sport: 'Basketball', skill: 'Advanced', rating: 4.7, matches: 102, bio: 'Point guard. Talk defense!', location: 'Anna Nagar', latitude: 13.0850, longitude: 80.2101 },
+  { uid: 9007, name: 'Vikram Singh', sport: 'Cricket', skill: 'Intermediate', rating: 4.4, matches: 77, bio: 'Pacer. Watch the yorker.', location: 'Perungudi', latitude: 12.9698, longitude: 80.2421 },
+  { uid: 9008, name: 'Anjali Nair', sport: 'Badminton', skill: 'Intermediate', rating: 4.3, matches: 64, bio: 'Drop shots are my love language.', location: 'Adyar', latitude: 13.0000, longitude: 80.2500 },
 ];
