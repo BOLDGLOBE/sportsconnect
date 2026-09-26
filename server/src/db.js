@@ -20,8 +20,12 @@ if (!CONNECTION_STRING) {
   process.exit(1);
 }
 
+// Neon URLs often carry ?sslmode=require which newer pg treats as verify-full
+// and the TLS handshake can get reset; strip params and configure SSL ourselves.
+const cleanConnectionString = CONNECTION_STRING.split('?')[0];
+
 export const pool = new pg.Pool({
-  connectionString: CONNECTION_STRING,
+  connectionString: cleanConnectionString,
   ssl: { rejectUnauthorized: false },
   max: 5,
 });

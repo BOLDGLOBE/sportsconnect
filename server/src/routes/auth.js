@@ -75,3 +75,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Could not log in. Please try again.' });
   }
 });
+
+export default router;
