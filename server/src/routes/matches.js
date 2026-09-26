@@ -33,14 +33,14 @@ async function matchWithParticipants(row) {
 router.get('/', authRequired, async (req, res) => {
   try {
     const { sport, lat, lng } = req.query;
-    const params = [sport && sport !== 'All' ? sport : null];
-    let sql = 'SELECT * FROM matches WHERE status = $1';
-    params.push('open');
-    if (params[0]) {
-      sql += ' AND sport = $2';
-      params.push(params.shift());
+    const where = ['status = $1'];
+    const params = ['open'];
+    if (sport && sport !== 'All') {
+      params.push(sport);
+      where.push(`sport = $${params.length}`);
     }
-    const { rows } = await pool.query(sql + ' ORDER BY created_at DESC', params);
+    const sql = `SELECT * FROM matches WHERE ${where.join(' AND ')} ORDER BY created_at DESC`;
+    const { rows } = await pool.query(sql, params);
 
     const userLat = lat != null ? Number(lat) : null;
     const userLng = lng != null ? Number(lng) : null;
