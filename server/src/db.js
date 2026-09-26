@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import pg from 'pg';
 
-// On Render/Neon the connection string comes from an env var.
+// On Vercel/Render/Neon the connection string comes from an env var.
 // Locally, fall back to the same URL stored in server/.env (dev convenience).
 const CONNECTION_STRING =
   process.env.DATABASE_URL ||
@@ -15,14 +15,9 @@ const CONNECTION_STRING =
     }
   })();
 
-if (!CONNECTION_STRING) {
-  console.error('DATABASE_URL is not set. Create server/.env with DATABASE_URL=postgres://...');
-  process.exit(1);
-}
-
 // Neon URLs often carry ?sslmode=require which newer pg treats as verify-full
 // and the TLS handshake can get reset; strip params and configure SSL ourselves.
-const cleanConnectionString = CONNECTION_STRING.split('?')[0];
+const cleanConnectionString = CONNECTION_STRING ? CONNECTION_STRING.split('?')[0] : null;
 
 export const pool = new pg.Pool({
   connectionString: cleanConnectionString,
@@ -30,7 +25,11 @@ export const pool = new pg.Pool({
   max: 5,
 });
 
+// Surface a clear error instead of crashing the process (serverless-safe).
 export async function initDb() {
+  if (!cleanConnectionString) {
+    throw new Error('DATABASE_URL is not set. Add it to the environment or server/.env.');
+  }
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id            SERIAL PRIMARY KEY,
